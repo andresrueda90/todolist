@@ -17,7 +17,7 @@
         <div class="row" >
             <div class="col header" >
                 <h1>Todo List</h1>
-                <form action="/add" method="post" >
+                <form action="add" method="post" >
                 <input class="form-control" type="text" name="description" >
                 <br>
                 <button class="btn btn-primary" type="submit">Add Task</button>
@@ -35,11 +35,11 @@
                 </span>
                 <span>
                 {% if task.done %}
-                    <a href="/uncheck/{{ task.id }}" ><i class="far fa-check-square" style="color:green;" ></i></a>
+                    <a href="uncheck/{{ task.id }}" ><i class="far fa-check-square" style="color:green;" ></i></a>
                 {% else %}
-                    <a href="/check/{{ task.id }}" ><i class="far fa-square" style="color:black;" ></i></a>
+                    <a href="check/{{ task.id }}" ><i class="far fa-square" style="color:black;" ></i></a>
                 {% endif %}
-                <a href="/delete/{{ task.id }}" ><i class="fas fa-trash-alt" style="color:red;" ></i></a>
+                <a href="delete/{{ task.id }}" ><i class="fas fa-trash-alt" style="color:red;" ></i></a>
                 </span>
             </li>
             {% endfor %}

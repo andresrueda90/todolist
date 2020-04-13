@@ -24,7 +24,7 @@ $twig = new \Twig_Environment($loader, array(
 
 $router = new Aura\Router\RouterContainer();
 $map = $router->getMap();
-$map->get('todo.list', '/', function ($request) use ($twig) {
+$map->get('todo.list', '/todolist/', function ($request) use ($twig) {
     $tasks = [
         [
             'id' => 1,

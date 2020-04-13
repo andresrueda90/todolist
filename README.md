@@ -1,6 +1,6 @@
-# todolist
+# ToDoList
 
-proyecto todolist de curso de php 
+proyecto ToDoList de curso de php 
 
 *  permite agregar tareas eliminar y tachar 
 *  se utiliza versión xampp v3.2.2
@@ -8,3 +8,4 @@ proyecto todolist de curso de php
 *  ejecutar script que se encuentra en el proyecto llamado tasks.sql
 *  Al clonar poyecto utilizar el comando composer install , para instalar dependencias
 
+![ImagenToDoList](Captura.PNG) 

@@ -5,6 +5,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once 'vendor/autoload.php';
+require_once 'config.php';
+require_once 'Task.php';
 
 use Relay\Relay;
 
@@ -21,37 +23,56 @@ $twig = new \Twig_Environment($loader, array(
     'debug' => true,
     'cache' => false,
 ));
-
+$raizproyecto="/todolist";
 $router = new Aura\Router\RouterContainer();
 $map = $router->getMap();
-$map->get('todo.list', '/todolist/', function ($request) use ($twig) {
-    $tasks = [
-        [
-            'id' => 1,
-            'description' => 'Aprender inglés',
-            'done' => false
-        ],
-        [
-            'id' => 1,
-            'description' => 'Hacer la tarea',
-            'done' => true
-        ],
-        [
-            'id' => 1,
-            'description' => 'Pasear al perro',
-            'done' => false
-        ],
-        [
-            'id' => 1,
-            'description' => 'Ver el curso de introducción a PHP',
-            'done' => false
-        ]
-    ];
+$map->get('todo.list', $raizproyecto.'/', function ($request) use ($twig) {
+    $tasks = Task::all();
+
     $response = new Zend\Diactoros\Response\HtmlResponse($twig->render('template.twig', [
         'tasks' => $tasks
     ]));
     return $response;
 });
+$map->post('todo.add', $raizproyecto.'/add', function ($request) {
+    $data = $request->getParsedBody();
+    $task = new Task();
+    $task->description = $data['description'];
+    $task->save();
+
+    $response = new Zend\Diactoros\Response\RedirectResponse('/todolist/');
+    return $response;
+});
+$map->get('todo.delete', $raizproyecto.'/delete/{id}', function ($request) {
+    $id = $request->getAttribute('id');
+    $task = Task::find($id);
+    $task->delete();
+
+    $response = new Zend\Diactoros\Response\RedirectResponse('/todolist/');
+    return $response;
+});
+$map->get('todo.check', $raizproyecto.'/check/{id}', function ($request) {
+    var_dump("INgresoooooooo");
+
+    $id = $request->getAttribute('id');
+    $task = Task::find($id);
+    $task->done = true;
+    $task->save();
+
+    $response = new Zend\Diactoros\Response\RedirectResponse('/todolist/');
+    return $response;
+});
+$map->get('todo.uncheck',$raizproyecto.'/uncheck/{id}', function ($request) {
+    $id = $request->getAttribute('id');
+    $task = Task::find($id);
+    $task->done = false;
+    $task->save();
+
+    $response = new Zend\Diactoros\Response\RedirectResponse('/todolist/');
+    return $response;
+});
+
+
 
 $relay = new Relay([
     new Middlewares\AuraRouter($router),
